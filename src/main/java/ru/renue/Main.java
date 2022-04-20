@@ -9,8 +9,7 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException, CsvException {
-        CSVReader reader = new CSVReader(new FileReader("src/main/resources/airports.csv"));
-        List<String[]> listOfAirports = reader.readAll();
+        String CsvFilePath = "src/main/resources/airports.csv";
         Yaml yaml = new Yaml();
         InputStream inputStream = ClassLoader.getSystemResourceAsStream("application.yaml");
         Map<String, Integer> map = yaml.load(inputStream);
@@ -21,20 +20,32 @@ public class Main {
             switch (i) {
                 case 1:
                     long time = System.currentTimeMillis();
+                    CSVReader reader = new CSVReader(new FileReader(CsvFilePath));
+                    List<String[]> listOfAirports = reader.readAll();
                     listOfAirports.forEach(x -> System.out.println(Arrays.toString(x)));
                     System.out.println("Время операции: " + (System.currentTimeMillis() - time));
                     break;
                 case 2:
-                    while (reader.readNext() != null) {
-                        String[] stroka = reader.readNext();
+                    String[] stroka;
+                    List<String> filteredList = new ArrayList<>();//Наш отфильтрованный список
+                    CSVReader reader2 = new CSVReader(new FileReader(CsvFilePath));
+                    Scanner scanner = new Scanner(System.in);
+                    System.out.println("Ваша строка для поиска: ");
+                    String word = scanner.next();
+                    while ((stroka = reader2.readNext()) != null) {//Фильтрация
                         String s = stroka[map.get("properties")];
-                        filterAndSort(s);
+                        if(filterAndSort(s, word)){
+                            filteredList.add(s);//Заполнение отфильтрованного списка
+                        }
                     }
+                    Collections.sort(filteredList);//Сортировка
+                    filteredList.forEach(System.out::println);
                     break;
                 case 0:
                     System.exit(0);
             }
         }
+
     }
 
     public static String choiceReturn() {
@@ -63,8 +74,8 @@ public class Main {
 
     }
 
-    public static void filterAndSort(String s) {
-        int i;//количество записей
+    public static boolean filterAndSort(String s, String word) {
+        return s.contains(word);
 
     }
 }
