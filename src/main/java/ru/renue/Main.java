@@ -26,18 +26,23 @@ public class Main {
                     System.out.println("Время операции: " + (System.currentTimeMillis() - time));
                     break;
                 case 2:
+                    int count=0;
                     String[] stroka;
                     List<String> filteredList = new ArrayList<>();//Наш отфильтрованный список
                     CSVReader reader2 = new CSVReader(new FileReader(CsvFilePath));
                     Scanner scanner = new Scanner(System.in);
                     System.out.println("Ваша строка для поиска: ");
                     String word = scanner.next();
+                    long time2 = System.currentTimeMillis();
                     while ((stroka = reader2.readNext()) != null) {//Фильтрация
                         String s = stroka[map.get("properties")];
                         if(filterAndSort(s, word)){
                             filteredList.add(s);//Заполнение отфильтрованного списка
+                            count++;
                         }
                     }
+                    System.out.println("Время операции: " + (System.currentTimeMillis() - time2)+" мс");
+                    System.out.println("Количество записей: "+count);
                     Collections.sort(filteredList);//Сортировка
                     filteredList.forEach(System.out::println);
                     break;
