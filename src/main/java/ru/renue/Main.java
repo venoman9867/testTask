@@ -28,7 +28,7 @@ public class Main {
                 case 2:
                     int count=0;
                     String[] stroka;
-                    List<String> filteredList = new ArrayList<>();//Наш отфильтрованный список
+                   Map<String,String[]> filteredList = new HashMap<>();//Наш отфильтрованный список
                     CSVReader reader2 = new CSVReader(new FileReader(CsvFilePath));
                     Scanner scanner = new Scanner(System.in);
                     System.out.println("Ваша строка для поиска: ");
@@ -37,14 +37,13 @@ public class Main {
                     while ((stroka = reader2.readNext()) != null) {//Фильтрация
                         String s = stroka[map.get("properties")];
                         if(filterAndSort(s, word)){
-                            filteredList.add(s);//Заполнение отфильтрованного списка
+                            filteredList.put(s,stroka);//Заполнение отфильтрованного списка
                             count++;
                         }
                     }
                     System.out.println("Время операции: " + (System.currentTimeMillis() - time2)+" мс");
                     System.out.println("Количество записей: "+count);
-                    Collections.sort(filteredList);//Сортировка
-                    filteredList.forEach(System.out::println);
+                    filteredList.forEach((key, value) -> System.out.println(key + ": " + Arrays.toString(value)));
                     break;
                 case 0:
                     System.exit(0);
