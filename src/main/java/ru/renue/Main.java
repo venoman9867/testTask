@@ -28,7 +28,8 @@ public class Main {
                 case 2:
                     int count=0;
                     String[] stroka;
-                   Map<String,String[]> filteredList = new HashMap<>();//Наш отфильтрованный список
+                   SortedMap<String,String[]> filteredList = new TreeMap<>(){
+                   };//Наш отфильтрованный список
                     CSVReader reader2 = new CSVReader(new FileReader(CsvFilePath));
                     Scanner scanner = new Scanner(System.in);
                     System.out.println("Ваша строка для поиска: ");
