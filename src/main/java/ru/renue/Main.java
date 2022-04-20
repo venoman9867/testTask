@@ -37,7 +37,7 @@ public class Main {
                     long time2 = System.currentTimeMillis();
                     while ((stroka = reader2.readNext()) != null) {//Фильтрация
                         String s = stroka[map.get("properties")];
-                        if(filterAndSort(s, word)){
+                        if(filter(s, word)){
                             filteredList.put(s,stroka);//Заполнение отфильтрованного списка
                             count++;
                         }
@@ -79,7 +79,7 @@ public class Main {
 
     }
 
-    public static boolean filterAndSort(String s, String word) {
+    public static boolean filter(String s, String word) {
         return s.contains(word);
 
     }
